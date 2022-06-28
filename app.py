@@ -2,7 +2,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
 
-password = input("what is your password: ")
+password = input("Enter your password: ")
 print(password)
 
 message = MIMEMultipart()
@@ -12,9 +12,10 @@ message['to'] = "sam@eduboxglobal.org"
 message['subject'] = "Congratulations!!!"
 message.attach(MIMEText("Body Message from Sam"))
 
-with smtplib.SMTP_SSL("smtp.gmail.com") as server:
+with smtplib.SMTP("smtp.gmail.com:587") as server:
     server.ehlo()
     server.starttls()
     server.login("sam@eduboxglobal.org", password=password)
-    server.send_message(message)
+    server.sendmail(message)
+    server.quit()
     print("E-mail Sent!")
